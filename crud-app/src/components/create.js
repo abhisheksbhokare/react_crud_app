@@ -9,7 +9,6 @@ export const Create = () => {
     const header = {"Access-Control-Allow-Origin" : "*"};
 
     const history = useNavigate();
-
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post(
@@ -19,10 +18,10 @@ export const Create = () => {
                 email : email,
                 header
             }
-        )
-        history('/read');
+        ).then(() => {
+            history('/read');
+        }) 
     }
-
     return (
         <div className='container'>
             <form>
@@ -37,7 +36,6 @@ export const Create = () => {
                 <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
-
     )
 }
 export default Create;
