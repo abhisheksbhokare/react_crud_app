@@ -3,9 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 const Read = () => {
-
   const [data, setData] = useState([]);
-
   const getData = () => {
     axios.get("https://64ca3b93b2980cec85c3255e.mockapi.io/crud-api")
       .then((res) => {
@@ -29,7 +27,6 @@ const Read = () => {
       name : el.name,
       email : el.email
     }
-    console.log(obj)
     localStorage.setItem('record',JSON.stringify(obj))
   }
 
@@ -61,7 +58,6 @@ const Read = () => {
                   <td><button className='btn-danger' onClick={() => {handleDelete(el.id)}}>Delete</button></td>
                 </tr>
               )
-
             })}
           </tbody>
         </table>
