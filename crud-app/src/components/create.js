@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Create = () => {
     const [record, setRecord] = useState({ name : '', email : '' });
@@ -45,8 +45,16 @@ export const Create = () => {
     }
     return (
         <div className='container'>
+            <div className='d-flex justify-content-between mt-4'>
+                <h2>
+                {flag ? 'Create' : 'Update'} Record
+                </h2>
+                <Link to='/read'>
+                <button className='btn btn-primary mt-2'>Check Records</button>
+                </Link>
+            </div>
             <form>
-                <div className="mb-3 mt-5">
+                <div className="mb-3 mt-2">
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" 
                     value={record.name}

@@ -32,7 +32,15 @@ const Read = () => {
 
   return (
     <>
-      <div className='container mt-5'>
+      <div className='container'>
+      <div className='d-flex justify-content-between mt-4 mb-4'>
+                <h2>
+                    Records
+                </h2>
+                <Link to='/'>
+                <button onClick={() => localStorage.setItem('record',{})} className='btn btn-primary mt-2'>Create Records</button>
+                </Link>
+            </div>
         <table className="table">
           <thead>
             <tr>
