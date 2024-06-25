@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { showData } from '../features/showSlice';
 
 export const Create = () => {
+    const dispatch = useDispatch();
     const [record, setRecord] = useState({ name : '', email : '' });
     const header = {"Access-Control-Allow-Origin" : "*"};
     const history = useNavigate();
-    const flag = localStorage.getItem('record') === '[object Object]';
-    const getRecord = () => {
-        if(!flag){
-            setRecord(JSON.parse(localStorage.getItem('record')));
-        }
-    }
+    const storeData = useSelector((d) => d.show.record );
+    const flag = (storeData.email === '' && storeData.name === '') ? true : false;
+    
     useEffect(() => {
         getRecord();
     },[])
+
+    const getRecord = () => {
+        if(!flag){
+            setRecord(storeData);
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,8 +28,8 @@ export const Create = () => {
             axios.post(
                 "https://64ca3b93b2980cec85c3255e.mockapi.io/crud-api",
                 {
-                    name : record.name,
-                    email : record.email,
+                    name : record?.name,
+                    email : record?.email,
                     header
                 }
             ).then(() => {
@@ -31,15 +37,20 @@ export const Create = () => {
             })
         }
         if(!flag){
-            const id = record.id;
+            const id = record?.id;
             axios.put(`https://64ca3b93b2980cec85c3255e.mockapi.io/crud-api/${id}`,
                 {
-                    name : record.name,
-                    email : record.email
+                    name : record?.name,
+                    email : record?.email
                 }
             ).then(() => {
+                const obj = {
+                    id : '',
+                    name : '',
+                    email : ''
+                  }
                 history('/read');
-                localStorage.setItem('record',{})
+                dispatch(showData(obj));
             })
         }
     }
@@ -57,14 +68,14 @@ export const Create = () => {
                 <div className="mb-3 mt-2">
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" 
-                    value={record.name}
+                    value={record?.name}
                     onChange={(e) => {setRecord({...record, name : e.target.value})}} 
                     />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Email address</label>
                     <input type="email" className="form-control"  
-                    value={record.email}
+                    value={record?.email}
                     onChange={(e) => {setRecord({...record, email : e.target.value})}} 
                     />
                 </div>

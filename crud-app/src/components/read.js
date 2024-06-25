@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { showData } from '../features/showSlice';
 
 const Read = () => {
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+
   const getData = () => {
     axios.get("https://64ca3b93b2980cec85c3255e.mockapi.io/crud-api")
       .then((res) => {
@@ -27,7 +31,16 @@ const Read = () => {
       name : el.name,
       email : el.email
     }
-    localStorage.setItem('record',JSON.stringify(obj))
+    dispatch(showData(obj));
+  }
+
+  const handleCreate = () => {
+    let obj2 = {
+      id : '',
+      name : '',
+      email : ''
+    }
+    dispatch(showData(obj2));
   }
 
   return (
@@ -38,7 +51,7 @@ const Read = () => {
                     Records
                 </h2>
                 <Link to='/'>
-                <button onClick={() => localStorage.setItem('record',{})} className='btn btn-primary mt-2'>Create Records</button>
+                <button onClick={handleCreate} className='btn btn-primary mt-2'>Create Records</button>
                 </Link>
             </div>
         <table className="table">
